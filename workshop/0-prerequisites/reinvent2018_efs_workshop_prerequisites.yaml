@@ -1,0 +1,75 @@
+---
+AWSTemplateFormatVersion: 2010-09-09
+
+Description: Stack will create two Amazon VPCs for the re:Invent 2018 Amazon EFS Workshop
+
+Metadata:
+
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+    - Label:
+        default: Virtual Private Cloud 1
+      Parameters:
+        - VpcCidr1
+        - AvailabilityZones1
+    - Label:
+        default: Virtual Private Cloud 2
+      Parameters:
+        - VpcCidr2
+        - AvailabilityZones2
+    ParameterLabels:
+      AvailabilityZones1:
+        default: Availability Zones (select 2)
+      VpcCidr1:
+        default: VPC CIDR
+      AvailabilityZones2:
+        default: Availability Zones (select 2)
+      VpcCidr2:
+        default: VPC CIDR
+
+Parameters:
+
+  AvailabilityZones1:
+    Description: Select two (2) Availability Zones. One public subnet will be created in each.
+    Type: List<AWS::EC2::AvailabilityZone::Name>
+  VpcCidr1:
+    AllowedValues: 
+    - 10.0.0.0/16
+    - 172.31.0.0/16
+    - 192.168.0.0/16
+    Default: 10.0.0.0/16
+    Description: Select the private IPv4 CIDR for the VPC.
+    Type: String
+  AvailabilityZones2:
+    Description: Select two (2) Availability Zones. One public subnet will be created in each.
+    Type: List<AWS::EC2::AvailabilityZone::Name>
+  VpcCidr2:
+    AllowedValues: 
+    - 10.0.0.0/16
+    - 172.31.0.0/16
+    - 192.168.0.0/16
+    Default: 172.31.0.0/16
+    Description: Select the private IPv4 CIDR for the VPC.
+    Type: String
+
+Resources:
+
+  Vpc1:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      Parameters:
+        AvailabilityZones:
+          !Join [ ',', !Ref AvailabilityZones1 ]
+        VpcCidr:
+          !Ref VpcCidr1
+      TemplateURL: https://s3.amazonaws.com/aws-us-east-1/amazon-efs-workshop/templates/reinvent2018_efs_workshop_prerequisites-vpc.yaml
+  Vpc2:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      Parameters:
+        AvailabilityZones:
+          !Join [ ',', !Ref AvailabilityZones2 ]
+        VpcCidr:
+          !Ref VpcCidr2
+      TemplateURL: https://s3.amazonaws.com/aws-us-east-1/amazon-efs-workshop/templates/reinvent2018_efs_workshop_prerequisites-vpc.yaml
+    
