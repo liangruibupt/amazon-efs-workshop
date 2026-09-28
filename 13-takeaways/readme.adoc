@@ -1,0 +1,33 @@
+= Workshop takeaways
+:toc:
+:icons:
+:linkattrs:
+:imagesdir: ../resources/images
+
+
+== Summary
+
+This section will list some of the best practices demonstrated during this workshop.
+
+
+== Best practices for optimal performance
+
+. Use multiple threads when accessing the file system.
+. Use multiple clients when accessing the file system.
+. Spread writes and updates over multiple directories to minimize inode contention.
+. Clients accessing the file system should have sufficient network performance to drive the IOPS and throughput needed.
+. Start with General Purpose Performance mode and Burst Throughput mode. Change to Provisioned Throughput Performance mode when the amount of data stored in the file system doesn't provide the desired throughput.
+. Use Amazon CloudWatch to monitor how hard your workloads drive the file system.
+. Mount using the EFS mount helper which provides the recommended mount options to optimize performance to the file system.
+. When required, add file system policies and access points to manage and secure client access.
+
+
+== Next section
+
+Click the link below to go to the next section.
+
+image::tear-down-workshop.png[link=../14-tear-down-workshop/, align="left",width=420]
+
+
+
+
